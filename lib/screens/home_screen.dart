@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:like_me_app/data/data.dart';
+import 'package:like_me_app/widgets/custom_drawer.dart';
 import 'package:like_me_app/widgets/following_users.dart';
+import 'package:like_me_app/widgets/posts_carousal.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,11 +13,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
   }
 
   @override
@@ -45,9 +51,15 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
       ),
+      drawer: CustomerDrawer(),
       body: ListView(
         children: [
           FollowingUsers(),
+          PostsCarousal(
+            pageController: _pageController,
+            title: 'Posts!',
+            posts: posts,
+          ),
         ],
       ),
     );
